@@ -43,7 +43,7 @@ for strLine in sys.stdin:
         dictHeaderCounts[strHeader] = dictHeaderCounts.get(strHeader,0)+1
         if dictHeaderCounts[strHeader] > 1:
             strHeader = strHeader + "___Copy"+str(dictHeaderCounts[strHeader]).zfill(4)
-        print ">" + strHeader
+        print(">" + strHeader)
     else:
-        print strLine
+        print(strLine)
         

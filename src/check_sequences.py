@@ -61,8 +61,8 @@ for x in aSeqs:
 
 #print new list to fasta file
 for seq in aSeqs:
-	if len(seq) > args.iN:
-		SeqIO.write( seq, sys.stdout, "fasta")
+    if len(seq) > args.iN:
+        SeqIO.write( seq, sys.stdout, "fasta")
 
 
 

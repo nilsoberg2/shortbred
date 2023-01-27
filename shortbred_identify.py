@@ -170,7 +170,7 @@ if (pCmd.returncode==0):
 else:
     sys.stderr.write("Usearch cannot make a required database. Please check to make sure you have v6.0.307 of usearch or later installed.\n\n")
 
-c_strTIME	= "time"
+c_strTIME    = "time"
 strCDHIT = args.strCDHIT
 strBLASTP = args.strBLASTP
 strMUSCLE = args.strMUSCLE
@@ -242,9 +242,9 @@ strMapFile = args.sMapIn
 ################################################################################
 # Step One: Cluster input genes and make into a blast/diamond database.
 #
-# Save centroids to							"tmp/clust/clust.faa"
-# Save blastdb of centroids file to			"tmp/clustdb/goidb"
-# If prot-to-fam map does not exist, make	"tmp/clust/clust.map"
+# Save centroids to                            "tmp/clust/clust.faa"
+# Save blastdb of centroids file to            "tmp/clustdb/goidb"
+# If prot-to-fam map does not exist, make    "tmp/clust/clust.map"
 
 #Make directories for clustfile and database.
 if(iMode==1 or iMode==2):
@@ -266,7 +266,7 @@ if(iMode==1 or iMode==2):
 # Step Two: Create reference database, if not supplied by user.
 # (refblast and refdb are blank, ref exists)
 
-# Save blastdb of ref file to	 "tmp/refdb/refdb"
+# Save blastdb of ref file to     "tmp/refdb/refdb"
 if(iMode==1): 
     if (args.sRefBlast == "" and args.dirRefDB == "" and args.sRefProts!=""):
         dirRefDB = src.check_create_dir( dirTmp + os.sep + "refdb" )
@@ -415,7 +415,7 @@ if bHasQuasi:
             break
         setLeftover = setLeftover.difference(setGotQM)
 
-	# Change these lines to determine how QM's are made
+    # Change these lines to determine how QM's are made
     atupQuasiMarkers2 = pi.CheckForQuasiMarkers(setLeftover, dictAllCounts, dictSBFamilies,args.iQMlength,args.iThresh, args.iTotLength)
     atupQuasiMarkers = atupQuasiMarkers1 + atupQuasiMarkers2
     sys.stderr.write("Found " +str(len(atupQuasiMarkers2)) + " QM-Minimals.\n")
@@ -571,25 +571,25 @@ the authors. If not, I can make something simple using the BioPython functions.
 
 if (iMode ==3):
     # Make a db for the clustered goi file if needed.
-	strClustFile = args.sClust
-	strClustDB = dirTmp + os.sep + "clustdb" + os.sep + "goidb"
+    strClustFile = args.sClust
+    strClustDB = dirTmp + os.sep + "clustdb" + os.sep + "goidb"
 
-	subprocess.check_call(["makeblastdb", "-in", strClustFile, "-out", strClustDB,
-			"-dbtype", "prot", "-logfile", dirTmp + os.sep + "goidb.log"])
+    subprocess.check_call(["makeblastdb", "-in", strClustFile, "-out", strClustDB,
+            "-dbtype", "prot", "-logfile", dirTmp + os.sep + "goidb.log"])
 
 # Blastx crashes when attempting ungapped alignments on short reads
 if args.iMLength <30:
-	astrBlastParams = ["-outfmt", "6 std qlen", "-matrix", "PAM30",
-	 #"-ungapped", "-xdrop_ungap","1",
-	 "-evalue","1e-3",
-		"-max_target_seqs", "100000",
-		"-num_threads",str(args.iThreads)]
+    astrBlastParams = ["-outfmt", "6 std qlen", "-matrix", "PAM30",
+     #"-ungapped", "-xdrop_ungap","1",
+     "-evalue","1e-3",
+        "-max_target_seqs", "100000",
+        "-num_threads",str(args.iThreads)]
 else:
     astrBlastParams = ["-outfmt", "6 std qlen", "-matrix", "PAM30",
-	"-ungapped",
-		"-xdrop_ungap","1","-evalue","1e-3",
-		"-max_target_seqs", "100000",
-		"-num_threads",str(args.iThreads)]
+    "-ungapped",
+        "-xdrop_ungap","1","-evalue","1e-3",
+        "-max_target_seqs", "100000",
+        "-num_threads",str(args.iThreads)]
 
 #New code for trying out new version of blastx. Throw this out later.
 astrBlastParams = ["-outfmt", "6 std qlen"]
@@ -602,7 +602,7 @@ strBlastNucsToGOI = dirFrameCheck + os.sep + "NucsToGOI.blast"
 #Blast clust file against goidb
 sys.stderr.write( "BLASTing the backtranslated marker nucleotides against family consensus sequences (blastx)...\n")
 subprocess.check_call(["blastx", "-query", strFrameNucs, "-db", strClustDB,
-	"-out", strBlastNucsToGOI] + astrBlastParams)
+    "-out", strBlastNucsToGOI] + astrBlastParams)
 
 strOffTargetHits = dirFrameCheck + os.sep + "OffTargetHits.txt"
 setProblemMarkers = pi.CheckOutOfFrame (strBlastNucsToGOI,.95, 32,dictFams, strOffTargetHits)
@@ -612,8 +612,8 @@ log.write("Number flagged as potential off-target markers: " + str(len(setProble
 strOffTargetMarkers = dirFrameCheck + os.sep + "ProblemMarkerList.txt"
 
 with open(strOffTargetMarkers, 'w') as fOut:
-	for strMarkerName in setProblemMarkers:
-		fOut.write(strMarkerName + "\n")
+    for strMarkerName in setProblemMarkers:
+        fOut.write(strMarkerName + "\n")
 
 # Remove any marker for which any rev-trans has a significant off-target hit
 

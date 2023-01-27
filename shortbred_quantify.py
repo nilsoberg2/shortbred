@@ -48,7 +48,7 @@ VERSION="0.9.5"
 ################################################################################
 # Constants
 c_iMaxSizeForDirectRun = 900 # File size in MB. Any WGS file smaller than this
-							 # does not need to made into smaller WGS files.
+                             # does not need to made into smaller WGS files.
 
 c_iReadsForFile = 7000000 # Number of WGS reads to process at a time
 
@@ -182,9 +182,9 @@ if args.strGenome!="" and args.strWGS==None and args.bUnannotated==False:
     strSize = "small"
     strFormat = "fasta"
     sys.stderr.write("Treating input as an annotated genome...\n")
-    sys.stderr.write("NOTE: When running against an annotated bug genome, ShortBRED makes a \
-                     usearch database from the bug genome and then searches the markers against it. \
-                     Please remember to increase \"maxhits\" and \"maxrejects\" to a large number, so that multiple \
+    sys.stderr.write("NOTE: When running against an annotated bug genome, ShortBRED makes a \n\
+                     usearch database from the bug genome and then searches the markers against it. \n\
+                     Please remember to increase \"maxhits\" and \"maxrejects\" to a large number, so that multiple \n\
                      markers can hit each bug sequence. Setting these values to 0 will search the full database.\n\n")
     dictFamCounts = sq.MakeDictFamilyCounts(args.strMarkers,"")
 
@@ -267,7 +267,7 @@ for seq in SeqIO.parse(args.strMarkers, "fasta"):
         if strType == "QM":
             astrQMs.append(seq.id)
             astrAllFams = re.search(r'\__\[(.*)\]',seq.id).group(1).split(",")
-	       
+           
             # Example: __[ZP_04174269_w=0.541,ZP_04300309_w=0.262,NP_242644_w=0.098]
             iQM = 0
             iJM = 0
@@ -283,7 +283,10 @@ for seq in SeqIO.parse(args.strMarkers, "fasta"):
                 
                 if strID == strStub:
                     dMainFamProp = dProp
-                dLenOverlap = (dProp/dMainFamProp) * len(seq)
+                try:
+                    dLenOverlap = (dProp/dMainFamProp) * len(seq)
+                except ZeroDivisionError:
+                    continue
                 
                 # Reads from current family can map to the QM if overlap is as long
                 # as the minimum accepted read length. Or if it nearly overlaps
@@ -299,7 +302,7 @@ sys.stderr.write( "\nExamining WGS data:")
 """
 aaFileInfo is array of string arrays, each with details on the file so ShortBRED
 knows how to process it efficiently. Each line has the format:
-	[filename, format, "large" or "small", extract method, and corresponding tarfile (if needed)]
+    [filename, format, "large" or "small", extract method, and corresponding tarfile (if needed)]
 
 An example:
     ['SRS011397/SRS011397.denovo_duplicates_marked.trimmed.1.fastq', 'fastq', 'large', 'r:bz2', '/n/CHB/data/hmp/wgs/samplesfqs/SRS011397.tar.bz2']
@@ -617,7 +620,7 @@ elif strMethod=="unannotated_genome":
     strInputFile = args.strGenome
 elif strMethod=="wgs":
     strInputFile=args.strWGS
-	
+    
 
 if strMethod=="wgs":
     atupCounts = sq.CalculateCounts(strResults = args.strResults, strMarkerResults=strMarkerResults,
@@ -625,7 +628,7 @@ if strMethod=="wgs":
                                     iWGSReads = iTotalReadCount, strCentCheck=args.strCentroids,
                                     dAlnLength=args.dAlnLength,strFile = strInputFile)
 
-	# Row of atupCounts = (strProtFamily,strMarker, dCount,dictHitsForMarker[strMarker],dictMarkerLen[strMarker],dReadLength,iPossibleHitSpace)
+    # Row of atupCounts = (strProtFamily,strMarker, dCount,dictHitsForMarker[strMarker],dictMarkerLen[strMarker],dReadLength,iPossibleHitSpace)
 
 
 
